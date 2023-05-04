@@ -28,6 +28,3 @@
          (distinct)))
   (exec "git" "sparse-checkout" "set" ;(jeff/choose available-paths :multi true))
   (exec "git" "checkout" "HEAD"))
-
-(defn main [_ & args]
-  (interactive-sparse-checkout))

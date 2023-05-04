@@ -8,21 +8,17 @@
   :url "https://tasadar.net/tionis/jeff"
   :repo "git+https://tasadar.net/tionis/jeff")
 
-(each f (os/dir "bin")
+(each f (filter |(peg/match ~(sequence "git-" (any 1) -1) $0) (os/dir "git-tools"))
   (declare-executable
     :name f
-    :entry (string/join ["bin" f] "/")
+    :entry (string "git-tools/" f)
     :install true))
 
-#(declare-source
-#  :source ["main.janet"])
+(each f (os/dir "bin")
+  (declare-binscript
+    :main (string "bin/" f)
+    :hardcode-syspath false
+    :is-janet false))
 
-#(declare-native
-# :name "mynative"
-# :source ["mynative.c" "mysupport.c"]
-# :embedded ["extra-functions.janet"])
-
-#(declare-executable
-#  :name "CHANGE_ME"
-#  :entry "main.janet"
-#  :install true)
+(declare-source
+  :source ["git-tools"])
