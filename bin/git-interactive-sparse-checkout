@@ -22,8 +22,7 @@
 (defn interactive-sparse-checkout []
   (def selected-paths @[])
   (def available-paths
-    (->> #(sh/exec-slurp "git" "ls-tree" "--name-only" "-r" "-z" "HEAD")
-         (sh/exec-slurp "git" "-C" "/home/tionis/wiki" "ls-tree" "--name-only" "-r" "-z" "HEAD")
+    (->> (sh/exec-slurp "git" "ls-tree" "--name-only" "-r" "-z" "HEAD")
          (string/split "\0")
          (mapcat filter-and-split-paths-into-components)
          (distinct)))
