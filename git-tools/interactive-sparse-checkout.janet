@@ -2,10 +2,7 @@
 (import spork/path)
 (import spork/sh)
 (import jeff)
-
-(defn- exec [& argv]
-  (when (not= (os/execute [;argv] :p) 0)
-    (error (string "command '" (string/join argv " ") "' failed"))))
+(use ./exec)
 
 (defn filter-and-split-paths-into-components [p]
   # Use path/posix as git always returns posix parts, if on windows they can be converted later
