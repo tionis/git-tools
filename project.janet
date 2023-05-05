@@ -24,5 +24,9 @@
     :hardcode-syspath false
     :is-janet false))
 
+(each f (if (os/stat "man") (os/dir "man") [])
+  (declare-manpage # Install man pages
+    (string "man/" f)))
+
 (declare-source # Declare source files to be imported by other janet based scripts
   :source ["git-tools"])
