@@ -5,8 +5,8 @@
                  "https://tasadar.net/tionis/jeff"]
   :author "tionis.dev"
   :license "MIT"
-  :url "https://tasadar.net/tionis/jeff"
-  :repo "git+https://tasadar.net/tionis/jeff")
+  :url "https://tasadar.net/tionis/git-tools"
+  :repo "git+https://tasadar.net/tionis/git-tools")
 
 (each f (filter |(peg/match ~(sequence "git-" (any 1) -1) $0) (os/dir "git-tools"))
   (declare-executable # Install janet git tools
