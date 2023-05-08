@@ -1,4 +1,4 @@
 #!/bin/env janet
-(use ./repl)
+(use ../repl)
 (defn main [& _]
   (repl))

@@ -16,12 +16,22 @@
       ret)
     [])) # Ignore top level or empty paths
 
-(defn interactive-sparse-checkout []
+(defn interactive-sparse-checkout
+  `Interactivly select paths to sparse checkout in a git repo using a fuzzy file selection ui
+  ref optionally defines the reference to use to look up the tree of files and later checkout
+  git-repo-path optionally passes the repo directory and is passed to git via the -C option`
+  [&named ref git-repo-path]
+  (default ref "HEAD")
+  (def extra-git-opts @[])
+  (when git-repo-path
+    (array/push extra-git-opts "-C")
+    (array/push extra-git-opts git-repo-path))
   (def selected-paths @[])
   (def available-paths
-    (->> (sh/exec-slurp "git" "ls-tree" "--name-only" "-r" "-z" "HEAD")
+    (->> (sh/exec-slurp "git" ;extra-git-opts "ls-tree" "--name-only" "-r" "-z" ref)
          (string/split "\0")
          (mapcat filter-and-split-paths-into-components)
          (distinct)))
-  (exec "git" "sparse-checkout" "set" ;(jeff/choose available-paths :multi true))
-  (exec "git" "checkout" "HEAD"))
+  # TODO support second ui that allows specifying patterns and shows the matching files in a second window or smth like that
+  (exec "git" ;extra-git-opts "sparse-checkout" "set" ;(jeff/choose available-paths :multi true))
+  (exec "git" ;extra-git-opts "checkout" ref))
