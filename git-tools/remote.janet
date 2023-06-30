@@ -1,4 +1,4 @@
-(import uri)
+(import ./uri)
 (import ./string)
 
 (def remote-scp-peg
